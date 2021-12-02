@@ -40,10 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
         if (add) {
           setState(() {
             _database.journals.add(_journalEdit.journal);
-            print(_database.journals.first.toJson());
           });
         } else {
-          _database.journals[index] = _journalEdit.journal;
+          setState(() {
+            _database.journals[index] = _journalEdit.journal;
+          });
         }
         DatabaseFileRoutines().writeJournals(databaseToJson(_database));
         break;
@@ -58,13 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
     String journalsJson = await DatabaseFileRoutines().readJournals();
     _database = databaseFromJson(journalsJson);
     _database.journals.sort((j1, j2) => j2.date.compareTo(j1.date));
+    print('La --> ${_database.journals}');
     return _database.journals;
   }
 
   @override
   void initState() {
     super.initState();
-    _database = Database(journals: []);
   }
 
   @override
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-        initialData: const [],
+        // initialData: const [],
         future: _loadJournals(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return !snapshot.hasData
@@ -144,7 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Text(
-                  DateFormat.E().format(snapshot.data[index].date),
+                  DateFormat.E()
+                      .format(DateTime.parse(snapshot.data[index].date)),
                 ),
               ],
             ),

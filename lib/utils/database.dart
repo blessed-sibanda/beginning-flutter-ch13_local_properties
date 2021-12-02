@@ -23,6 +23,7 @@ class DatabaseFileRoutines {
       }
       // Read the file
       String contents = await file.readAsString();
+      print(contents);
       return contents;
     } catch (e) {
       print('error readJournals: $e');
@@ -56,10 +57,11 @@ class Database {
   Database({required this.journals});
 
   factory Database.fromJson(Map<String, dynamic> json) => Database(
-        journals: json['journals'].map((x) => Journal.fromJson(x)),
+        journals: List<Journal>.from(
+            json['journals'].map((x) => Journal.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        'journals': journals.map((x) => x.toJson()).toList(),
+        'journals': List<dynamic>.from(journals.map((x) => x.toJson())),
       };
 }
