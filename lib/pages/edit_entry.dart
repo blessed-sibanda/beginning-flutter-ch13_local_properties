@@ -43,11 +43,9 @@ class _EditEntryState extends State<EditEntry> {
       _moodController.text = '';
       _noteController.text = '';
     } else {
-      _selectedDate = _journalEdit.journal.date == null
-          ? DateTime.parse(_journalEdit.journal.date!)
-          : DateTime.now();
-      _moodController.text = _journalEdit.journal.mood ?? '';
-      _noteController.text = _journalEdit.journal.note ?? '';
+      _selectedDate = DateTime.parse(_journalEdit.journal.date);
+      _moodController.text = _journalEdit.journal.mood;
+      _noteController.text = _journalEdit.journal.note;
     }
   }
 
@@ -174,7 +172,7 @@ class _EditEntryState extends State<EditEntry> {
                         _journalEdit.action = 'Save';
                         String _id = widget.add
                             ? Random().nextInt(999999).toString()
-                            : _journalEdit.journal.id!;
+                            : _journalEdit.journal.id;
 
                         _journalEdit.journal = Journal(
                           id: _id,
@@ -182,6 +180,7 @@ class _EditEntryState extends State<EditEntry> {
                           mood: _moodController.text,
                           note: _noteController.text,
                         );
+
                         Navigator.pop(context, _journalEdit);
                       },
                       child: Text(

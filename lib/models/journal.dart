@@ -1,14 +1,14 @@
 class Journal {
-  String? id;
-  String? date;
-  String? mood;
-  String? note;
+  String id;
+  String date;
+  String mood;
+  String note;
 
   Journal({
-    this.id,
-    this.date,
-    this.mood,
-    this.note,
+    required this.id,
+    required this.date,
+    required this.mood,
+    required this.note,
   });
 
   factory Journal.fromJson(Map<String, dynamic> json) => Journal(
@@ -17,6 +17,8 @@ class Journal {
         mood: json['mood'],
         note: json['note'],
       );
+
+  factory Journal.empty() => Journal(id: '', date: '', mood: '', note: '');
 
   Map<String, dynamic> toJson() => {
         'id': id,
