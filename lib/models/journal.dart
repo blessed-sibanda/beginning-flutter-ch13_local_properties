@@ -1,14 +1,14 @@
 class Journal {
-  String id;
-  String date;
-  String mood;
-  String note;
+  String? id;
+  String? date;
+  String? mood;
+  String? note;
 
   Journal({
-    required this.id,
-    required this.date,
-    required this.mood,
-    required this.note,
+    this.id,
+    this.date,
+    this.mood,
+    this.note,
   });
 
   factory Journal.fromJson(Map<String, dynamic> json) => Journal(
