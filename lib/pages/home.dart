@@ -34,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
         fullscreenDialog: true,
       ),
     );
-    print('journalEdit -> ${_journalEdit.action}');
     switch (_journalEdit.action) {
       case 'Save':
         if (add) {
@@ -59,13 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String journalsJson = await DatabaseFileRoutines().readJournals();
     _database = databaseFromJson(journalsJson);
     _database.journals.sort((j1, j2) => j2.date.compareTo(j1.date));
-    print('La --> ${_database.journals}');
     return _database.journals;
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -74,14 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: FutureBuilder(
-        // initialData: const [],
-        future: _loadJournals(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return !snapshot.hasData
-              ? const Center(child: CircularProgressIndicator())
-              : _buildListViewSeparated(snapshot);
-        },
+      body: Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: FutureBuilder(
+          future: _loadJournals(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return !snapshot.hasData
+                ? const Center(child: CircularProgressIndicator())
+                : _buildListViewSeparated(snapshot);
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
