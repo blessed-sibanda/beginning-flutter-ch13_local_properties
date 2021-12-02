@@ -16,8 +16,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Database _database;
 
-  void _addOrEditJournal(context,
-      {required bool add, required int index, required Journal journal}) async {
+  void _addOrEditJournal(
+    context, {
+    required bool add,
+    required int index,
+    required Journal journal,
+  }) async {
     JournalEdit _journalEdit = JournalEdit(action: '', journal: journal);
     _journalEdit = await Navigator.push(
       context,
@@ -30,11 +34,13 @@ class _MyHomePageState extends State<MyHomePage> {
         fullscreenDialog: true,
       ),
     );
+    print('journalEdit -> ${_journalEdit.action}');
     switch (_journalEdit.action) {
       case 'Save':
         if (add) {
           setState(() {
             _database.journals.add(_journalEdit.journal);
+            print(_database.journals.first.toJson());
           });
         } else {
           _database.journals[index] = _journalEdit.journal;
@@ -56,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _database = Database(journals: []);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -65,9 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
         initialData: const [],
         future: _loadJournals(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return snapshot.hasData
-              ? _buildListViewSeparated(snapshot)
-              : const Center(child: CircularProgressIndicator());
+          return !snapshot.hasData
+              ? const Center(child: CircularProgressIndicator())
+              : _buildListViewSeparated(snapshot);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

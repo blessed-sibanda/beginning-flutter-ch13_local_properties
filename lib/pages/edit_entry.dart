@@ -121,7 +121,7 @@ class _EditEntryState extends State<EditEntry> {
                         ),
                       ),
                       const Icon(
-                        Icons.arrow_back,
+                        Icons.arrow_drop_down,
                         color: Colors.black54,
                       ),
                     ],
@@ -156,7 +156,8 @@ class _EditEntryState extends State<EditEntry> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
+                    MaterialButton(
+                      color: Colors.red,
                       onPressed: () {
                         _journalEdit.action = 'Cancel';
                         Navigator.pop(context, _journalEdit);
@@ -167,7 +168,8 @@ class _EditEntryState extends State<EditEntry> {
                       ),
                     ),
                     const SizedBox(width: 8.0),
-                    TextButton(
+                    MaterialButton(
+                      color: Colors.green,
                       onPressed: () {
                         _journalEdit.action = 'Save';
                         String _id = widget.add
